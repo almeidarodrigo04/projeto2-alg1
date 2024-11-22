@@ -4,8 +4,8 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <stdbool.h>
+    #include "noavl.h"
 
-    typedef struct _noavl NOAVL;
     typedef struct _avl AVL;
 
     AVL *avl_criar(void);
