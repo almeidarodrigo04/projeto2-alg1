@@ -15,7 +15,7 @@
     void avl_apagar(AVL **T);
     void avl_imprimir(AVL *T);
     AVL *avl_uniao(AVL *T, AVL *U);
-    AVL *avl_interseccao(AVl *T, AVL* U);
+    AVL *avl_interseccao(AVL *T, AVL* U);
 
 
 #endif
