@@ -53,7 +53,8 @@ bool llrbt_pertence(LLRBT *T, int elemento){
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*FUNÇÕES DEDICADAS A INSERÇÃO DE UM ELEMNTO NA ÁRVORE*/
+/*FUNÇÕES DEDICADAS AO REBALANCEAMENTO DA ÁRVORE*/
+/*Obs: são usadas na inserção e remoção*/
 
 //função da rotção esquerda
 NO_LLRBT *rotacao_esquerda(NO_LLRBT *A){
@@ -96,6 +97,9 @@ bool vermelho(NO_LLRBT *no){
     }
     return false;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*FUNÇÕES DEDICADAS A INSERÇÃO DE UM ELMENTO NA ÁRVORE*/
 
 //função recursiva para inserir um nó
 NO_LLRBT *no_llrbt_inserir(NO_LLRBT *no, int elemento){
@@ -144,7 +148,6 @@ bool llrbt_inserir(LLRBT *T, int elemento){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*FUNÇÕES DEDICADAS A REMOÇÃO DE UM ELEMENTO NA ÁRVORE*/
-/*Obs: utiliza algumas funções da inserção (vemelha, rotações, inverter cor)*/
 
 //propaga o nó para esquerda
 NO_LLRBT *propagar_vermelho_esquerda(NO_LLRBT *no){

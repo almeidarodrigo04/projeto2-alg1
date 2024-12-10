@@ -6,6 +6,11 @@ struct set{
     LLRBT *SetRBN;
 };
 
+/*ATENÇÃO: o parâmetro "tipo" define a estrutura de dados que será utilizada*/
+//tipo == 0 => AVL
+//tipo == 1 => LLRBT
+
+//função que cria um conjunto
 SET *set_criar(int tipo){
     SET *conjunto = (SET *) malloc(sizeof(SET));
     if(tipo == 0){
@@ -21,6 +26,7 @@ SET *set_criar(int tipo){
     return(conjunto);
 }
 
+//Função que verifica se um elemento está no conjunto
 bool set_pertence(SET *A, int elemento, int tipo){
     if(tipo == 0){
         return(avl_pertence(A->SetAVL, elemento));
@@ -31,6 +37,7 @@ bool set_pertence(SET *A, int elemento, int tipo){
     return false;
 }
 
+//função que insere o elemento no conjunto
 bool set_inserir(SET *s, int elemento, int tipo){
     if(tipo == 0){
         return(avl_inserir(s->SetAVL, elemento));
@@ -41,6 +48,7 @@ bool set_inserir(SET *s, int elemento, int tipo){
     return false;
 }
 
+//função que remove um elemento do conjunto
 bool set_remover(SET *s, int elemento, int tipo){
     if(tipo == 0){
         return(avl_remover(s->SetAVL, elemento));
@@ -51,6 +59,7 @@ bool set_remover(SET *s, int elemento, int tipo){
     return false;
 }
 
+//função que apaga o conjunto todo
 void set_apagar(SET **s, int tipo){
     if(tipo == 0){
         avl_apagar(&(*s)->SetAVL);
@@ -62,6 +71,7 @@ void set_apagar(SET **s, int tipo){
     }
 }
 
+//função que imprime a árvore toda
 void set_imprimir(SET *s, int tipo){
     if(tipo == 0){
         avl_imprimir(s->SetAVL);
@@ -73,6 +83,7 @@ void set_imprimir(SET *s, int tipo){
     }
 }
 
+//função que que recebe dois conjuntos e cria um terceiro baseado na união deles
 SET *set_uniao(SET *A, SET *B, int tipo){
     SET *uniao = set_criar(tipo);
     if(tipo == 0){
@@ -84,6 +95,7 @@ SET *set_uniao(SET *A, SET *B, int tipo){
     return(uniao);
 }
 
+//função que que recebe dois conjuntos e cria um terceiro baseada na intersecção deles
 SET *set_interseccao(SET *A, SET *B, int tipo){
     SET *interseccao = set_criar(tipo);
     if(tipo == 0){
