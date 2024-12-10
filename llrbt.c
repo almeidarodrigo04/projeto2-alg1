@@ -90,22 +90,10 @@ bool vermelho(NO_LLRBT *no){
     return false;
 }
 
-void restaurar(NO_LLRBT *no){
-    if(!vermelho(no->esq) && vermelho(no->dir)){
-        no = rotacao_esquerda(no);
-    }
-    if(vermelho(no->esq)&& vermelho(no->esq->esq)){
-        no = rotacao_direita(no);
-    }
-    if(vermelho(no->esq) && vermelho(no->dir)){
-        inverte_cor(no);
-    }
-}
-
 NO_LLRBT *no_llrbt_inserir(NO_LLRBT *no, int elemento){
     if(!no){
         no = (NO_LLRBT *) malloc(1*sizeof(NO_LLRBT));
-        if(!no){
+        if(no){
             no->chave = elemento;
             no->esq = NULL;
             no->dir = NULL;
@@ -118,7 +106,16 @@ NO_LLRBT *no_llrbt_inserir(NO_LLRBT *no, int elemento){
     if(elemento > no->chave){
         no->dir = no_llrbt_inserir(no->dir, elemento);
     }
-    restaurar(no);
+    
+    if(!vermelho(no->esq) && vermelho(no->dir)){
+        no = rotacao_esquerda(no);
+    }
+    if(vermelho(no->esq)&& vermelho(no->esq->esq)){
+        no = rotacao_direita(no);
+    }
+    if(vermelho(no->esq) && vermelho(no->dir)){
+        inverte_cor(no);
+    }
 
     return no;
 }
@@ -133,15 +130,17 @@ bool llrbt_inserir(LLRBT *T, int elemento){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*FUNÇÕES DEDICADAS A REMOÇÃO DE UM ELEMENTO NA ÁRVORE*/
-/*Obs: utiliza alguma funções da inserção (vemelha, rotações, inverter cor e restaurar)*/
+/*Obs: utiliza alguma funções da inserção (vemelha, rotações, inverter cor )*/
 
 NO_LLRBT *propagar_vermelho_esquerda(NO_LLRBT *no){
     if(!vermelho(no->esq) && !vermelho(no->esq->esq)){
         inverte_cor(no);
-        if(vermelho(no->dir->esq)){
-            no->dir = rotacao_direita(no->dir);
-            no = rotacao_esquerda(no);
-            inverte_cor(no);
+        if(no->dir){
+            if(vermelho(no->dir->esq)){
+                no->dir = rotacao_direita(no->dir);
+                no = rotacao_esquerda(no);
+                inverte_cor(no);
+            }
         }
     }
     return no;
@@ -170,8 +169,11 @@ void troca_max_esq(NO_LLRBT *troca, NO_LLRBT *raiz, NO_LLRBT *ant){
         ant->esq = troca->esq;
     }
     else{
-        ant->dir = troca->dir;
+        ant->dir = troca->esq;
     }
+
+    raiz->chave = troca->chave;
+
     free(troca);
     troca = NULL;
 }
@@ -188,11 +190,10 @@ NO_LLRBT *no_llrbt_remover(NO_LLRBT *no, int elemento){
             aux = NULL;
         }
         else{
-            no = propagar_vermelho_direita(no);
             troca_max_esq(no->esq, no, no);
         }
     }
-    if(no->chave < elemento){
+    else if(elemento < no->chave){
         no = propagar_vermelho_esquerda(no);
         no->esq = no_llrbt_remover(no->esq, elemento);
     }
@@ -200,9 +201,19 @@ NO_LLRBT *no_llrbt_remover(NO_LLRBT *no, int elemento){
         no = propagar_vermelho_direita(no);
         no->dir = no_llrbt_remover(no->dir, elemento);
     }
+
     if(no){
-        restaurar(no);
+        if(!vermelho(no->esq) && vermelho(no->dir)){
+            no = rotacao_esquerda(no);
+        }
+        if(vermelho(no->esq) && vermelho(no->esq->esq)){
+            no = rotacao_direita(no);
+        }
+        if(vermelho(no->esq) && vermelho(no->dir)){
+            inverte_cor(no);
+        }
     }
+
     return no;
 }
 
@@ -214,21 +225,28 @@ bool llrbt_remover(LLRBT *T, int elemento){
     return false;
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*FUNÇÕES DEDICADAS A APAGAR A ÁRVORE*/
 
-void no_llrbt_apagar(NO_LLRBT **no){
+void no_llrbt_apagar(NO_LLRBT *no){
     if(!no){
         return;
     }
-    no_llrbt_apagar(&(*no)->esq);
-    no_llrbt_apagar(&(*no)->dir);
-    free(*no);
-    *no = NULL;
+    no_llrbt_apagar((no)->esq);
+    no_llrbt_apagar((no)->dir);
+    free(no);
+    return;
 }
 
 void llrbt_apagar(LLRBT **T){
-    no_llrbt_apagar(&(*T)->raiz);
+    if(!T){
+        return;
+    }
+    no_llrbt_apagar((*T)->raiz);
+    free(*T);
+    *T = NULL;
+    return;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -245,6 +263,7 @@ void no_llrbt_imprimir(NO_LLRBT *no){
 
 void llrbt_imprimir(LLRBT *T){
     no_llrbt_imprimir(T->raiz);
+    printf("\n");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -260,11 +279,11 @@ void no_llrbt_unir(LLRBT *uniao, NO_LLRBT *no){
 
 LLRBT *llrbt_uniao(LLRBT *T, LLRBT *U){
     if(!T){
-        printf("Esse operção requer dois conjuntos existentes!\n");
+        printf("Essa operação requer dois conjuntos existentes!\n");
         return NULL;
     }
     if(!U){
-        printf("Esse operção requer dois conjuntos existentes!\n");
+        printf("Essa operação requer dois conjuntos existentes!\n");
         return NULL;
     }
     LLRBT *V = llrbt_criar();
@@ -295,11 +314,11 @@ void no_llrbt_interseccao(LLRBT *interseccao, LLRBT *T, NO_LLRBT *no_U){
 
 LLRBT *llrbt_interseccao(LLRBT *T, LLRBT *U){
     if(!T){
-        printf("Esse operção requer dois conjuntos existentes!\n");
+        printf("Essa operação requer dois conjuntos existentes!\n");
         return NULL;
     }
     if(!U){
-        printf("Esse operção requer dois conjuntos existentes!\n");
+        printf("Essa operação requer dois conjuntos existentes!\n");
         return NULL;
     }
     LLRBT *V = llrbt_criar();

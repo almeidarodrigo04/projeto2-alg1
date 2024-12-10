@@ -1,6 +1,5 @@
 #include "set.h"
 #include <stdio.h>
-//#include <stdlib.h>
 
 int main(void){
     SET *A, *B, *C;
@@ -8,6 +7,7 @@ int main(void){
     int n_a, n_b, elemento;
     int operacao;
     int tipo;
+
 
     scanf("%d", &tipo);
     /*Quando tipo == 0, usamos uma árvore AVL

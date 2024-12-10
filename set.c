@@ -15,7 +15,7 @@ SET *set_criar(int tipo){
     }
     else if(tipo == 1){
         conjunto->tipo = 1;
-        conjunto->SetAVL = NULL;
+        conjunto->SetRBN = NULL;
         conjunto->SetRBN = llrbt_criar();
     }
     return(conjunto);
