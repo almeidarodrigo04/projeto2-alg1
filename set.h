@@ -1,3 +1,5 @@
+//Código feito por: João Pedro Daleffe Dias e Rodrigo Silva de Almeida
+
 #ifndef _SET_H
 #define _SET_H
 

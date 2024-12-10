@@ -1,3 +1,5 @@
+//Código feito por: João Pedro Daleffe Dias e Rodrigo Silva de Almeida
+
 #include "llrbt.h"
 
 #define PRETO 0
