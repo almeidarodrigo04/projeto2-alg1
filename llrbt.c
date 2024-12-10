@@ -15,6 +15,10 @@ struct _llrbt{
     NO_LLRBT *raiz;
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*FUNÇÕES DEDICADAS A CRIAR A ÁRVORE*/
+
+
 LLRBT *llrbt_criar(void){
     LLRBT *T = (LLRBT *) malloc(1*sizeof(LLRBT *));
     if(!T){
@@ -23,6 +27,9 @@ LLRBT *llrbt_criar(void){
     T->raiz = NULL; 
     return T;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*FUNÇÕES DEDICADAS A VARIFICAR A EXISTENCIA DE UM ELEMENTO NA ARVORE*/
 
 bool no_llrbt_pertence(NO_LLRBT *no, int elemento){
     if(!no){
@@ -42,6 +49,9 @@ bool no_llrbt_pertence(NO_LLRBT *no, int elemento){
 bool llrbt_pertence(LLRBT *T, int elemento){
     return no_llrbt_pertence(T->raiz, elemento);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*FUNÇÕES DEDICADAS A INSERÇÃO DE UM ELEMNTO NA ÁRVORE*/
 
 NO_LLRBT *rotacao_esquerda(NO_LLRBT *A){
     NO_LLRBT *B = A->dir;
@@ -120,6 +130,10 @@ bool llrbt_inserir(LLRBT *T, int elemento){
     }
     return false;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*FUNÇÕES DEDICADAS A REMOÇÃO DE UM ELEMENTO NA ÁRVORE*/
+/*Obs: utiliza alguma funções da inserção (vemelha, rotações, inverter cor e restaurar)*/
 
 NO_LLRBT *propagar_vermelho_esquerda(NO_LLRBT *no){
     if(!vermelho(no->esq) && !vermelho(no->esq->esq)){
@@ -200,6 +214,9 @@ bool llrbt_remover(LLRBT *T, int elemento){
     return false;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*FUNÇÕES DEDICADAS A APAGAR A ÁRVORE*/
+
 void no_llrbt_apagar(NO_LLRBT **no){
     if(!no){
         return;
@@ -214,6 +231,9 @@ void llrbt_apagar(LLRBT **T){
     no_llrbt_apagar(&(*T)->raiz);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*FUNÇÕES DEDICADAS A IMPRIMIR A ÁRVORE*/
+
 void no_llrbt_imprimir(NO_LLRBT *no){
     if(!no){
         return;
@@ -226,6 +246,9 @@ void no_llrbt_imprimir(NO_LLRBT *no){
 void llrbt_imprimir(LLRBT *T){
     no_llrbt_imprimir(T->raiz);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*FUNÇÕES DEDICADAS A OPERAÇÃO UNIÃO*/
 
 void no_llrbt_unir(LLRBT *uniao, NO_LLRBT *no){
     if(no){
@@ -241,6 +264,9 @@ LLRBT *llrbt_uniao(LLRBT *T, LLRBT *U){
     no_llrbt_unir(V, U->raiz);
     return V;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*FUNÇÕES DEDICADAS A OPERAÇÃO INTERSECÇÃO*/
 
 void no_llrbt_interseccao(LLRBT *interseccao, LLRBT *T, NO_LLRBT *no_U){
     if(no_U){
