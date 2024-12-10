@@ -259,6 +259,14 @@ void no_llrbt_unir(LLRBT *uniao, NO_LLRBT *no){
 }
 
 LLRBT *llrbt_uniao(LLRBT *T, LLRBT *U){
+    if(!T){
+        printf("Esse operção requer dois conjuntos existentes!\n");
+        return NULL;
+    }
+    if(!U){
+        printf("Esse operção requer dois conjuntos existentes!\n");
+        return NULL;
+    }
     LLRBT *V = llrbt_criar();
     no_llrbt_unir(V, T->raiz);
     no_llrbt_unir(V, U->raiz);
@@ -267,6 +275,13 @@ LLRBT *llrbt_uniao(LLRBT *T, LLRBT *U){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*FUNÇÕES DEDICADAS A OPERAÇÃO INTERSECÇÃO*/
+
+int contar_no(NO_LLRBT *no){
+    if(!no){
+        return 0;
+    }
+    return 1 + contar_no(no->esq) + contar_no(no->dir);
+}
 
 void no_llrbt_interseccao(LLRBT *interseccao, LLRBT *T, NO_LLRBT *no_U){
     if(no_U){
@@ -279,7 +294,20 @@ void no_llrbt_interseccao(LLRBT *interseccao, LLRBT *T, NO_LLRBT *no_U){
 }
 
 LLRBT *llrbt_interseccao(LLRBT *T, LLRBT *U){
+    if(!T){
+        printf("Esse operção requer dois conjuntos existentes!\n");
+        return NULL;
+    }
+    if(!U){
+        printf("Esse operção requer dois conjuntos existentes!\n");
+        return NULL;
+    }
     LLRBT *V = llrbt_criar();
-    no_llrbt_interseccao(V, T, U->raiz);
+    if(contar_no(T->raiz) > contar_no(U->raiz)){
+        no_llrbt_interseccao(V, T, U->raiz);  
+    }
+    else{
+        no_llrbt_interseccao(V, U, T->raiz);
+    }
     return V;
 }
