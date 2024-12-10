@@ -1,4 +1,4 @@
-#include "conjunto.h"
+#include "set.h"
 
 struct set{
     int tipo;
