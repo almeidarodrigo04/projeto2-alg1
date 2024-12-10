@@ -28,6 +28,7 @@ bool set_pertence(SET *A, int elemento, int tipo){
     else if(tipo == 1){
         return(llrbt_pertence(A->SetRBN, elemento));
     }
+    return false;
 }
 
 bool set_inserir(SET *s, int elemento, int tipo){
@@ -37,6 +38,7 @@ bool set_inserir(SET *s, int elemento, int tipo){
     else if(tipo == 1){
         return(llrbt_inserir(s->SetRBN, elemento));
     }
+    return false;
 }
 
 bool set_remover(SET *s, int elemento, int tipo){
@@ -46,15 +48,16 @@ bool set_remover(SET *s, int elemento, int tipo){
     else if(tipo == 1){
         return(llrbt_remover(s->SetRBN, elemento));
     }
+    return false;
 }
 
 void set_apagar(SET **s, int tipo){
     if(tipo == 0){
-        llrbt_apagar(&s->SetAVL);
+        avl_apagar(&(*s)->SetAVL);
         return;
     }
     else if(tipo == 1){
-        llrbt_apagar(&s->SetRBN);
+        llrbt_apagar(&(*s)->SetRBN);
         return;
     }
 }
