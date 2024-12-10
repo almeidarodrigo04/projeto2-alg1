@@ -1,24 +1,22 @@
 #include "conjunto.h"
-#include "avl.h"
-#include "noavl.h"
 
-struct set {
+struct set{
     int tipo;
     AVL *SetAVL;
-    //RB *SetRBN;
-}
+    LLRBT *SetRBN;
+};
 
 SET *set_criar(int tipo){
     SET *conjunto = (SET *) malloc(sizeof(SET));
     if(tipo == 0){
         conjunto->tipo = 0;
         conjunto->SetAVL = avl_criar();
-        //conjunto->SetRBN = NULL;
+        conjunto->SetRBN = NULL;
     }
     else if(tipo == 1){
         conjunto->tipo = 1;
         conjunto->SetAVL = NULL;
-        //conjutno->SetRBN = rbn_criar();
+        conjunto->SetRBN = llrbt_criar();
     }
     return(conjunto);
 }
@@ -27,38 +25,38 @@ bool set_pertence(SET *A, int elemento, int tipo){
     if(tipo == 0){
         return(avl_pertence(A->SetAVL, elemento));
     }
-    //else if(tipo == 1){
-    //    return(rbn_pertence(A->SetRBN, elemento));
-    //}
+    else if(tipo == 1){
+        return(llrbt_pertence(A->SetRBN, elemento));
+    }
 }
 
 bool set_inserir(SET *s, int elemento, int tipo){
     if(tipo == 0){
         return(avl_inserir(s->SetAVL, elemento));
     }
-    //else if(tipo == 1){
-    //    return(rbn_inserir(s->SetRBN, elemento));
-    //}
+    else if(tipo == 1){
+        return(llrbt_inserir(s->SetRBN, elemento));
+    }
 }
 
 bool set_remover(SET *s, int elemento, int tipo){
     if(tipo == 0){
         return(avl_remover(s->SetAVL, elemento));
     }
-    //else if(tipo == 1){
-    //    return(rbn_remover(s->SetRBN, elemento));
-    //}
+    else if(tipo == 1){
+        return(llrbt_remover(s->SetRBN, elemento));
+    }
 }
 
 void set_apagar(SET **s, int tipo){
     if(tipo == 0){
-        avl_apagar(&s->SetAVL);
+        llrbt_apagar(&s->SetAVL);
         return;
     }
-    //else if(tipo == 1){
-    //    rbn_apagar(&s->SetRBN);
-    //    return;
-    //}
+    else if(tipo == 1){
+        llrbt_apagar(&s->SetRBN);
+        return;
+    }
 }
 
 void set_imprimir(SET *s, int tipo){
@@ -66,10 +64,10 @@ void set_imprimir(SET *s, int tipo){
         avl_imprimir(s->SetAVL);
         return;
     }
-    //else if(tipo == 1){
-    //    rbn_imprimir(s->SetRBN);
-    //    return;
-    //}
+    else if(tipo == 1){
+        llrbt_imprimir(s->SetRBN);
+        return;
+    }
 }
 
 SET *set_uniao(SET *A, SET *B, int tipo){
@@ -77,9 +75,9 @@ SET *set_uniao(SET *A, SET *B, int tipo){
     if(tipo == 0){
         uniao->SetAVL = avl_uniao(A->SetAVL, B->SetAVL);
     }
-    //else if(tipo == 1){
-    //    uniao->SetRBN = rbn_criar(A->SetRBN, B->SetRBN);
-    //}
+    else if(tipo == 1){
+        uniao->SetRBN = llrbt_uniao(A->SetRBN, B->SetRBN);
+    }
     return(uniao);
 }
 
@@ -88,8 +86,8 @@ SET *set_interseccao(SET *A, SET *B, int tipo){
     if(tipo == 0){
         interseccao->SetAVL = avl_interseccao(A->SetAVL, B->SetAVL);
     }
-    //else if(tipo == 1){
-    //    interseccao->SetRBN = rbn_interseccao(A->SetRBN, B->SetRBN);
-    //}
+    else if(tipo == 1){
+        interseccao->SetRBN = llrbt_interseccao(A->SetRBN, B->SetRBN);
+    }
     return(interseccao);
 }
