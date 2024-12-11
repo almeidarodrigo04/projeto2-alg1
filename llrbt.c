@@ -59,7 +59,7 @@ bool llrbt_pertence(LLRBT *T, int elemento){
 /*Obs: são usadas na inserção e remoção*/
 
 //função da rotção esquerda
-NO_LLRBT *rotacao_esquerda(NO_LLRBT *A){
+NO_LLRBT *llrbt_rotacao_esquerda(NO_LLRBT *A){
     NO_LLRBT *B = A->dir;
     A->dir = B->esq;
     B->esq = A;
@@ -70,7 +70,7 @@ NO_LLRBT *rotacao_esquerda(NO_LLRBT *A){
 
 
 //função da rotação direita
-NO_LLRBT *rotacao_direita(NO_LLRBT *A){
+NO_LLRBT *llrbt_rotacao_direita(NO_LLRBT *A){
     NO_LLRBT *B = A->esq;
     A->esq = B->dir;
     B->dir = A;
@@ -126,10 +126,10 @@ NO_LLRBT *no_llrbt_inserir(NO_LLRBT *no, int elemento){
     
     //condições de rebalanceamento na volta da recursão, fazendo as rotações e inversões necessárias
     if(!vermelho(no->esq) && vermelho(no->dir)){
-        no = rotacao_esquerda(no);
+        no = llrbt_rotacao_esquerda(no);
     }
     if(vermelho(no->esq)&& vermelho(no->esq->esq)){
-        no = rotacao_direita(no);
+        no = llrbt_rotacao_direita(no);
     }
     if(vermelho(no->esq) && vermelho(no->dir)){
         inverte_cor(no);
@@ -157,8 +157,8 @@ NO_LLRBT *propagar_vermelho_esquerda(NO_LLRBT *no){
         inverte_cor(no);
         if(no->dir){
             if(vermelho(no->dir->esq)){
-                no->dir = rotacao_direita(no->dir);
-                no = rotacao_esquerda(no);
+                no->dir = llrbt_rotacao_direita(no->dir);
+                no = llrbt_rotacao_esquerda(no);
                 inverte_cor(no);
             }
         }
@@ -169,12 +169,12 @@ NO_LLRBT *propagar_vermelho_esquerda(NO_LLRBT *no){
 //propaga o nó para a direita
 NO_LLRBT *propagar_vermelho_direita(NO_LLRBT *no){
     if(vermelho(no->esq)){
-        no = rotacao_direita(no);
+        no = llrbt_rotacao_direita(no);
     }
     if(!vermelho(no->dir) && !vermelho(no->dir->esq)){
         inverte_cor(no);
         if(vermelho(no->esq->esq)){
-            no = rotacao_direita(no);
+            no = llrbt_rotacao_direita(no);
             inverte_cor(no);
         }
     }
@@ -237,10 +237,10 @@ NO_LLRBT *no_llrbt_remover(NO_LLRBT *no, int elemento){
     //aqui "consertamos" a árvore na volta da recursão
     if(no){
         if(!vermelho(no->esq) && vermelho(no->dir)){
-            no = rotacao_esquerda(no);
+            no = llrbt_rotacao_esquerda(no);
         }
         if(vermelho(no->esq) && vermelho(no->esq->esq)){
-            no = rotacao_direita(no);
+            no = llrbt_rotacao_direita(no);
         }
         if(vermelho(no->esq) && vermelho(no->dir)){
             inverte_cor(no);
