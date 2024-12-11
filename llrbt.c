@@ -183,10 +183,10 @@ NO_LLRBT *propagar_vermelho_direita(NO_LLRBT *no){
 
 //função que troca o maior elemento da esquerda (subarvore com nós menores que raiz) para trocar com o elemento a ser removido, assim
 //continua sendo binária de busca
-void troca_max_esq(NO_LLRBT *troca, NO_LLRBT *raiz, NO_LLRBT *ant){
+void llrbt_troca_max_esq(NO_LLRBT *troca, NO_LLRBT *raiz, NO_LLRBT *ant){
     if(troca->dir){
         //enquanto não encontrar o maior continua indo para a direita
-        troca_max_esq(troca->dir, raiz, troca);
+        llrbt_troca_max_esq(troca->dir, raiz, troca);
         return;
     }
     //caso não haja mais direito, verifica se a raiz é o nó anteriror
@@ -220,7 +220,7 @@ NO_LLRBT *no_llrbt_remover(NO_LLRBT *no, int elemento){
         }
         else{
             //se nenhum dos filhos for nulo, trocamos pelo maior nó da subarvore esquerda
-            troca_max_esq(no->esq, no, no);
+            llrbt_troca_max_esq(no->esq, no, no);
         }
     }
     else if(elemento < no->chave){
